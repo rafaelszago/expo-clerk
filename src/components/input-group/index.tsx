@@ -1,12 +1,10 @@
 import { Text, TextInput, TextInputProps, View } from 'react-native';
 
 type InputGroupProps = TextInputProps & {
-  error?: string | null;
   label?: string;
 };
 
 export const InputGroup: React.FC<InputGroupProps> = ({
-  error,
   label,
   ...otherProps
 }) => {
@@ -17,7 +15,6 @@ export const InputGroup: React.FC<InputGroupProps> = ({
         {...otherProps}
         className="border border-gray-300 rounded-lg p-3"
       />
-      {error && <Text className="text-sm text-red-600">{error}</Text>}
     </View>
   );
 };
