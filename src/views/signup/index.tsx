@@ -1,9 +1,18 @@
 import { useSignUp } from '@clerk/clerk-expo';
 import { useState } from 'react';
-import { View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Button, InputGroup } from '../../components';
+import { RootStackScreenProps } from '../../protocols';
 
-export const SignUp: React.FC = () => {
+export const SignUp: React.FC<RootStackScreenProps<'SignUp'>> = ({
+  navigation,
+}) => {
   const { isLoaded, signUp } = useSignUp();
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
@@ -25,30 +34,40 @@ export const SignUp: React.FC = () => {
     }
   };
 
+  const onSignInPress = () => navigation.replace('SignIn');
+
   return (
-    <View className="p-8 flex flex-col justify-center min-h-screen">
-      <View className="space-y-3">
-        <View>
-          <InputGroup
-            autoCapitalize="none"
-            value={emailAddress}
-            placeholder="Email..."
-            onChangeText={email => setEmailAddress(email)}
-          />
-        </View>
-
-        <View>
-          <InputGroup
-            label="Password"
-            value={password}
-            placeholder="Password..."
-            secureTextEntry={true}
-            onChangeText={password => setPassword(password)}
-          />
-        </View>
-
-        <Button onPress={onSignUpPress}>Sign up</Button>
+    <KeyboardAvoidingView
+      className="p-8 flex flex-col justify-center min-h-screen space-y-3"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View>
+        <InputGroup
+          label="E-mail"
+          autoCapitalize="none"
+          value={emailAddress}
+          placeholder="Email..."
+          onChangeText={email => setEmailAddress(email)}
+        />
       </View>
-    </View>
+
+      <View className="mb-3">
+        <InputGroup
+          label="Password"
+          value={password}
+          placeholder="Password..."
+          secureTextEntry={true}
+          onChangeText={password => setPassword(password)}
+        />
+      </View>
+
+      <Button onPress={onSignUpPress}>Sign up</Button>
+
+      <View className="flex flex-row gap-1">
+        <Text>Have an account?</Text>
+        <TouchableOpacity onPress={onSignInPress}>
+          <Text className="text-blue-500 font-medium">Sign in</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
