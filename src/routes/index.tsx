@@ -31,7 +31,7 @@ const RootNavigator = () => {
           <Stack.Screen
             name="Dashboard"
             component={Dashboard}
-            options={{ title: 'MyProfile' }}
+            options={{ title: 'Dashboard' }}
           />
         ) : (
           <>
